@@ -1,0 +1,62 @@
+{
+  "fetchedAt": "2026-10-21T19:06:03.242Z",
+  "source": "https://www.bcb.gov.br/estatisticas/sgs",
+  "series": {
+    "cdi": {
+      "code": 4389,
+      "unit": "% a.a.",
+      "name": "CDI anualizado (base 252)",
+      "value": 13.65,
+      "date": "2026-10-20",
+      "stale": false
+    },
+    "ipca12m": {
+      "code": 13522,
+      "unit": "%",
+      "name": "IPCA acumulado em 12 meses",
+      "value": 4.58,
+      "date": "2026-09-01",
+      "stale": false
+    },
+    "savingsMonthly": {
+      "code": 195,
+      "unit": "% a.m.",
+      "name": "Rendimento da poupança",
+      "value": 0.6706,
+      "date": "2026-10-20",
+      "stale": false
+    },
+    "usd": {
+      "code": 1,
+      "unit": "R$",
+      "name": "Dólar (PTAX venda)",
+      "value": 5.0277,
+      "date": "2026-10-21",
+      "stale": false
+    },
+    "eur": {
+      "code": 21619,
+      "unit": "R$",
+      "name": "Euro (PTAX venda)",
+      "value": 5.6411,
+      "date": "2026-10-21",
+      "stale": false
+    },
+    "gbp": {
+      "code": 21623,
+      "unit": "R$",
+      "name": "Libra (PTAX venda)",
+      "value": 6.7321,
+      "date": "2026-10-21",
+      "stale": false
+    },
+    "cad": {
+      "code": 21635,
+      "unit": "R$",
+      "name": "Dólar canadense (PTAX venda)",
+      "value": 3.5754,
+      "date": "2026-10-21",
+      "stale": false
+    }
+  }
+}
