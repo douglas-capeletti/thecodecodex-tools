@@ -1,6 +1,6 @@
 {
   "name": "@thecodecodex/tools",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Lógica das ferramentas do thecodecodex.com (finanças BR, CPF/CNPJ, PDF, regex, JWT e mais) e o script de terminal cli.js",
   "license": "MIT",
   "author": "Douglas Capeletti",
