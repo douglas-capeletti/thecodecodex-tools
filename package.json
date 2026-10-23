@@ -7,9 +7,9 @@
   "homepage": "https://thecodecodex.com/pt/tools/",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/douglas-capeletti/thecodecodex-tools.git"
+    "url": "git+https://github.com/thecodecodex/tools.git"
   },
-  "bugs": "https://github.com/douglas-capeletti/thecodecodex-tools/issues",
+  "bugs": "https://github.com/thecodecodex/tools/issues",
   "type": "module",
   "sideEffects": false,
   "exports": {
