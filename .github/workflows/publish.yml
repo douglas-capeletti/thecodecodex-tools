@@ -1,12 +1,15 @@
 name: Publish to npm
 
-# publica quando uma tag vX.Y.Z é enviada; a versão do package.json precisa ser igual à da tag
+# A cada push na main: calcula a próxima versão, cria a tag vX.Y.Z e publica no npm (sem tag manual).
+# Versão: a do package.json, se for maior que a última tag (para minor/major, edite o package.json);
+# senão, a última tag com o patch + 1.
 on:
   push:
-    tags: [ "v*" ]
+    branches: [ main ]
+  workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write # criar a tag
   id-token: write # provenance e trusted publishing do npm
 
 concurrency:
@@ -19,6 +22,8 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0 # tags completas para calcular a versão
       - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v7
         with:
@@ -26,7 +31,31 @@ jobs:
           cache: pnpm
           registry-url: https://registry.npmjs.org
       - run: pnpm install --frozen-lockfile
-      - name: Tag matches package.json
-        run: test "v$(node -p 'require("./package.json").version')" = "${GITHUB_REF_NAME}"
+
+      - name: Calcular versão
+        id: versao
+        run: |
+          PKG=$(node -p 'require("./package.json").version')
+          ULTIMA=$(git tag -l 'v[0-9]*.[0-9]*.[0-9]*' | grep -vE -- '-' | sed 's/^v//' | sort -V | tail -1)
+          if [ -z "$ULTIMA" ] || [ "$(printf '%s\n%s\n' "$ULTIMA" "$PKG" | sort -V | tail -1)" != "$ULTIMA" ]; then
+            VERSAO=$PKG
+          else
+            IFS=. read -r MA MI PA <<< "$ULTIMA"
+            VERSAO="$MA.$MI.$((PA + 1))"
+          fi
+          echo "Última tag: ${ULTIMA:-nenhuma} | package.json: $PKG | publicando: $VERSAO"
+          echo "versao=$VERSAO" >> "$GITHUB_OUTPUT"
+
+      - name: Aplicar versão no package.json (só no runner)
+        run: npm version "${{ steps.versao.outputs.versao }}" --no-git-tag-version --allow-same-version
+
       - run: pnpm check
+
+      - name: Criar tag
+        env:
+          TAG: v${{ steps.versao.outputs.versao }}
+        run: |
+          git tag "$TAG" "$GITHUB_SHA"
+          git push origin "$TAG"
+
       - run: npm publish --access public --provenance
